@@ -2,7 +2,6 @@
 
 #### 1.Setup your platform
 -   miniconda (for python environment)
--   pip
 -   git
 -   git lfs
 
