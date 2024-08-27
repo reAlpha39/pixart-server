@@ -22,7 +22,7 @@ conda activate pixart
 huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir ./PixArt-Sigma-900M
 ```
 
-Then put those 2 files on the "**root**" folder
+Then put those 2 files on the "**root**" directory
 
 #### 5. Install dependency
 ```
