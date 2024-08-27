@@ -7,23 +7,30 @@
 -   git
 -   git lfs
 
-#### 2. Setup environment
+#### 2. Clone repository
+```
+git clone https://github.com/reAlpha39/pixart-server.git
+```
+
+#### 3. Setup environment
 ```
 conda create -n pixart python=3.10
 conda activate pixart
 ```
 
-#### 3. Download Models
+#### 4. Download Models
 ```
 huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir ./PixArt-Sigma-900M
 ```
 
-#### 4. Install dependency
+Then put those 2 files on the "**root**" folder
+
+#### 5. Install dependency
 ```
 pip install -r requirements.txt
 ```
 
-#### 5. Run
+#### 6. Run
 ```
 fastapi run app.py
 ```
