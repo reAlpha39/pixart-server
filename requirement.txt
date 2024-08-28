@@ -13,3 +13,4 @@ fastapi[standard]
 uuid
 huggingface_hub[cli]
 ollama
+uvicorn

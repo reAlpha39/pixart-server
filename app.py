@@ -3,8 +3,11 @@ import random
 import numpy as np
 import ollama
 import re
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.responses import FileResponse
+from queue import Queue
+from threading import Thread, Lock
+import time
 from pydantic import BaseModel
 from typing import Optional
 from diffusers import PixArtSigmaPipeline
@@ -189,4 +192,3 @@ def get_image(image_filename: str):
 def read_root():
     return {"message": "Welcome to the PixArt Sigma 900M Image Generation API"}
 
-# Run it with: uvicorn app:app --reload, or fastapi run app.py
