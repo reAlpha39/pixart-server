@@ -4,6 +4,7 @@
 -   miniconda (for python environment)
 -   git
 -   git lfs
+-   [Cuda Toolkit](https://developer.nvidia.com/cuda-12-4-0-download-archive)
 
 #### 2. Clone repository
 ```
