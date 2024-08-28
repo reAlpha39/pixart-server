@@ -16,17 +16,17 @@ conda create -n pixart python=3.10
 conda activate pixart
 ```
 
-#### 4. Download Models
+#### 4. Install dependency
+```
+pip install -r requirements.txt
+```
+
+#### 5. Download Models
 ```
 huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir ./PixArt-Sigma-900M
 ```
 
 Then put those folder on the "**root**" directory
-
-#### 5. Install dependency
-```
-pip install -r requirements.txt
-```
 
 #### 6. Run
 ```
