@@ -11,9 +11,10 @@ class PromptGenerator:
                     'role': 'user',
                     'content': prompt
                 }
-            ]
+            ],
+            options={
+                "temperature": 0
+            }
         )
-        generated_prompt = response['message']['content']
-        generated_prompt = re.sub('\n', '', generated_prompt)
-
-        return generated_prompt
+        text = response['message']['content'].strip()
+        return text
