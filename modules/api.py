@@ -28,4 +28,4 @@ def get_image(image_filename: str):
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the PixArt Sigma 900M Image Generation API"}
+    return {"message": "Welcome to the PixArt Sigma Image Generation API"}
