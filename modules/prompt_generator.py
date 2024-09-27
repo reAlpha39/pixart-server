@@ -5,7 +5,6 @@ class PromptGenerator:
     def generate(prompt: str):
         response = ollama.chat(
             model='gemma2:latest',
-            keep_alive=0,
             messages=[
                 {
                     'role': 'user',
