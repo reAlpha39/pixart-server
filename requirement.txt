@@ -14,3 +14,5 @@ uuid
 huggingface_hub[cli]
 ollama
 uvicorn
+sentencepiece
+accelerate
