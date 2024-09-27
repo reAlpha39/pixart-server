@@ -20,7 +20,7 @@ MAX_SEED = np.iinfo(np.int32).max
 MAX_IMAGE_SIZE = 1024
 
 pipe = PixArtSigmaPipeline.from_pretrained(
-    "dataautogpt3/PixArt-Sigma-900M",
+    "./PixArt-Sigma-900M",
     torch_dtype=torch.float16,
 ).to("cuda")
 
