@@ -1,6 +1,7 @@
 services:
   pixart-api:
     container_name: pixart-api
+    image: realpha39/pixart-ollama
     build:
       context: .
       dockerfile: Dockerfile
@@ -24,7 +25,7 @@ services:
     ports:
       - "11434:11434"  # Default port for Ollama
     command: >
-      /bin/bash -c "ollama serve & sleep 5 && ollama pull gemma2"
+      /bin/bash -c "ollama serve & sleep 5 && ollama pull gemma2:2b"
     deploy:
       resources:
         reservations:
