@@ -22,5 +22,5 @@ jobs:
 
     # Step 3: Build and start Docker Compose services
     - name: Build and run Docker Compose
-      run: docker-compose up --build -d --tag my-image-name:$(date +%s)
+      run: docker-compose up --build -d
 
