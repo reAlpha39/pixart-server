@@ -4,7 +4,7 @@ services:
     image: realpha39/pixart-ollama
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: pixart.dockerfile
     ports:
       - "8000:8000"  # Expose API on port 8000
     environment:
