@@ -6,9 +6,7 @@ services:
       context: .
       dockerfile: pixart.dockerfile
     ports:
-      - "8000:8000"  # Expose API on port 8000
-    environment:
-      - MODEL_PATH=/app  # Path to the models in the host machine
+      - "8000:8000"
     deploy:
       resources:
         reservations:
@@ -25,7 +23,7 @@ services:
       context: .
       dockerfile: ollama.dockerfile
     ports:
-      - "11434:11434"  # Default port for Ollama
+      - "11434:11434"
     deploy:
       resources:
         reservations:
