@@ -16,7 +16,7 @@ COPY requirement.txt /app/
 RUN pip3 install -r requirement.txt
 
 # Download the Hugging Face models
-RUN huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir /app/PixArt-Sigma-900M
+# RUN huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir /app/PixArt-Sigma-900M
 
 # Ensure the generated_images directory exists
 RUN mkdir -p /app/generated_images

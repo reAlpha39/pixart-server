@@ -21,11 +21,11 @@ services:
 
   ollama:
     container_name: ollama
-    image: ollama/ollama:latest
+    build:
+      context: .
+      dockerfile: ollama.dockerfile
     ports:
       - "11434:11434"  # Default port for Ollama
-    command: >
-      /bin/bash -c "ollama serve & sleep 5 && ollama pull gemma2:2b"
     deploy:
       resources:
         reservations:
@@ -35,7 +35,6 @@ services:
               capabilities: [gpu]
     networks:
       - shared-network
-
 networks:
   shared-network:
     driver: bridge
