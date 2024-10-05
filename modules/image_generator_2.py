@@ -16,21 +16,27 @@ import gc
 IMAGE_DIR = "./generated_images"
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
-MAX_SEED = np.iinfo(np.int32).max
-MAX_IMAGE_SIZE = 1024
-
-pipe = PixArtSigmaPipeline.from_pretrained(
-    "./PixArt-Sigma-900M",
-    torch_dtype=torch.float16,
-).to("cuda")
-
 
 class ImageGenerator:
+    _pipe = None
+    MAX_SEED = np.iinfo(np.int32).max
 
     @classmethod
-    def generate(self, request: ImageRequest):
+    def initialize_pipeline(cls):
+        if cls._pipe is None:
+            cls._pipe = PixArtSigmaPipeline.from_pretrained(
+                "./PixArt-Sigma-900M",
+                torch_dtype=torch.float16,
+            ).to("cuda")
+        return cls._pipe
+
+    @classmethod
+    def generate(cls, request: ImageRequest):
+        # Ensure the pipeline is initialized
+        pipe = cls.initialize_pipeline()
+
         if request.randomize_seed:
-            request.seed = random.randint(0, MAX_SEED)
+            request.seed = random.randint(0, cls.MAX_SEED)
 
         generator = torch.Generator().manual_seed(request.seed)
 
