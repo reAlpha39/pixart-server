@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements.txt and install Python dependencies
-COPY requirement.txt .
+COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # Ensure the generated_images directory exists
