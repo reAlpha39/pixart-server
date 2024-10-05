@@ -1,14 +1,16 @@
 #!/bin/bash
 
-# Start Ollama in the background.
-/bin/ollama serve &
-# Record Process ID.
-pid=$!
+# Start Ollama serve in the background
+ollama serve &
 
-# Pause for Ollama to start.
+# Wait a moment to ensure Ollama is ready
 sleep 5
 
-ollama pull gemma2:latest
+# Pull the gemma2 model
+ollama pull gemma2
 
-# Wait for Ollama process to finish.
-wait $pid
+# pull pixart model
+huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir /app/PixArt-Sigma-900M
+
+# Run the Python script
+python3 main.py

@@ -1,22 +1,16 @@
-FROM nvidia/cuda:12.6.0-cudnn-runtime-ubuntu22.04
+FROM nvidia/cuda:12.4.0-runtime-ubuntu22.04
 
 # Set the working directory
 WORKDIR /app
 
 # Install CUDA dependencies and other necessary system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 python3-pip libglib2.0-0 libsm6 libxext6 libxrender-dev git \
+    python3 python3-pip libglib2.0-0 libsm6 libxext6 libxrender-dev git curl \
     && rm -rf /var/lib/apt/lists/*
-
-# Install huggingface-cli
-RUN pip3 install huggingface_hub
 
 # Copy requirements.txt and install Python dependencies
 COPY requirement.txt /app/
 RUN pip3 install -r requirement.txt
-
-# Download the Hugging Face models
-# RUN huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir /app/PixArt-Sigma-900M
 
 # Ensure the generated_images directory exists
 RUN mkdir -p /app/generated_images
@@ -25,8 +19,15 @@ RUN mkdir -p /app/generated_images
 COPY main.py /app/
 COPY modules /app/modules/
 
+# Install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Copy the entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 # Expose the API port
 EXPOSE 8000
 
-# Command to run the API
-CMD ["python3", "main.py"]
+# Use entrypoint.sh to run the sequence of commands
+ENTRYPOINT ["/app/entrypoint.sh"]
