@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
 # Start Ollama serve in the background
 ollama serve &
 

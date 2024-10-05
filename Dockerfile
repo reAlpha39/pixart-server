@@ -19,9 +19,6 @@ RUN mkdir -p /app/generated_images
 COPY main.py /app/
 COPY modules /app/modules/
 
-# Install Ollama
-RUN curl -fsSL https://ollama.com/install.sh | sh
-
 # Copy the entrypoint script
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
