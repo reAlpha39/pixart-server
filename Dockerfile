@@ -9,22 +9,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements.txt and install Python dependencies
-COPY requirement.txt /app/
-RUN pip3 install -r requirement.txt
+COPY requirement.txt .
+RUN pip3 install -r requirements.txt
 
 # Ensure the generated_images directory exists
-RUN mkdir -p /app/generated_images
+RUN mkdir -p generated_images
 
-# Copy only main.py and the modules folder, exclude models as they are mounted from the host
-COPY main.py /app/
-COPY modules /app/modules/
+# Copy only main.py and the modules folder.
+COPY main.py .
+COPY modules/ modules/
 
 # Copy the entrypoint script
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
 
 # Expose the API port
 EXPOSE 8000
 
 # Use entrypoint.sh to run the sequence of commands
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
