@@ -11,9 +11,6 @@ class PromptGenerator:
                     'content': prompt
                 }
             ],
-            options={
-                "temperature": 0.2
-            }
         )
         text = response['message']['content'].strip()
         return text

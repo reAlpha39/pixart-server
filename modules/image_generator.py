@@ -1,5 +1,5 @@
 from modules.generate_image_request_model import ImageRequest
-from modules.prompt_generator_2 import PromptGenerator
+from modules.prompt_generator import PromptGenerator
 
 import torch
 import random
