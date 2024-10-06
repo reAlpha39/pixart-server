@@ -5,13 +5,14 @@ WORKDIR /app
 
 # Install CUDA dependencies and other necessary system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 python3-pip libglib2.0-0 libsm6 libxext6 libxrender-dev \
+    python3 python3-dev libpython3-dev python3-pip \
+    libglib2.0-0 libsm6 libxext6 libxrender-dev \
     build-essential git curl pciutils \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements.txt and install Python dependencies
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Ensure the generated_images directory exists
 RUN mkdir -p generated_images
