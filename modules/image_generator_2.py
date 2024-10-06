@@ -4,33 +4,39 @@ from modules.prompt_generator import PromptGenerator
 import torch
 import random
 import numpy as np
-import ollama
-from diffusers import PixArtSigmaPipeline, Transformer2DModel
-from transformers import T5EncoderModel, BitsAndBytesConfig
+from diffusers import PixArtSigmaPipeline
 from PIL import Image
 from uuid import uuid4
 import os
-import gc
 
 # Directory to save images
 IMAGE_DIR = "./generated_images"
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
-MAX_SEED = np.iinfo(np.int32).max
-MAX_IMAGE_SIZE = 1024
-
-pipe = PixArtSigmaPipeline.from_pretrained(
-    "./PixArt-Sigma-900M",
-    torch_dtype=torch.float16,
-).to("cuda")
-
 
 class ImageGenerator:
+    def __init__(self):
+        self._pipe = PixArtSigmaPipeline.from_pretrained(
+            "./PixArt-Sigma-900M",
+            torch_dtype=torch.float16,
+        ).to("cuda")
 
-    @classmethod
+        # # speed-up T5
+        # self._pipe.text_encoder.to_bettertransformer()
+
+        # # Compile Model
+        # self._pipe.transformer = torch.compile(
+        #     self._pipe.transformer,
+        #     mode="reduce-overhead",
+        #     fullgraph=True,
+        # )
+
+        self.MAX_SEED = np.iinfo(np.int32).max
+
     def generate(self, request: ImageRequest):
+
         if request.randomize_seed:
-            request.seed = random.randint(0, MAX_SEED)
+            request.seed = random.randint(0, self.MAX_SEED)
 
         generator = torch.Generator().manual_seed(request.seed)
 
@@ -42,7 +48,7 @@ class ImageGenerator:
             else:
                 generated_prompt = request.prompt
 
-            image = pipe(
+            image = self._pipe(
                 prompt=generated_prompt,
                 negative_prompt=request.negative_prompt,
                 width=request.width,
