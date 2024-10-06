@@ -29,5 +29,5 @@ jobs:
     # Step 4: Build Docker image with Buildx (No cache)
     - name: Build Docker image
       run: |
-        docker buildx build --push --no-cache --tag realpha39/pixart-ollama .
+        docker buildx build --push --no-cache --tag realpha39/pixart-ollama:dev .
 
