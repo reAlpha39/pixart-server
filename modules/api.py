@@ -6,14 +6,13 @@ from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.responses import FileResponse
 
 
-image_generator = ImageGenerator()
 app = FastAPI()
 
 
 @app.post("/generate-image/")
 def generate_image(request: ImageRequest):
     try:
-        result = image_generator.generate(request=request)
+        result = ImageGenerator.generate(request=request)
         return result
     except Exception as e:
         print(e)
