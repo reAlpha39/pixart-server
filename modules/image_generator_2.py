@@ -21,15 +21,15 @@ class ImageGenerator:
             torch_dtype=torch.float16,
         ).to("cuda")
 
-        # speed-up T5
-        self._pipe.text_encoder.to_bettertransformer()
+        # # speed-up T5
+        # self._pipe.text_encoder.to_bettertransformer()
 
-        # Compile Model
-        self._pipe.transformer = torch.compile(
-            self._pipe.transformer,
-            mode="reduce-overhead",
-            fullgraph=True,
-        )
+        # # Compile Model
+        # self._pipe.transformer = torch.compile(
+        #     self._pipe.transformer,
+        #     mode="reduce-overhead",
+        #     fullgraph=True,
+        # )
 
         self.MAX_SEED = np.iinfo(np.int32).max
 
