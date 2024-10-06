@@ -26,7 +26,10 @@ class ImageGenerator:
 
         # Compile Model
         self._pipe.transformer = torch.compile(
-            pipe.transformer, mode="reduce-overhead", fullgraph=True)
+            self._pipe.transformer,
+            mode="reduce-overhead",
+            fullgraph=True,
+        )
 
         self.MAX_SEED = np.iinfo(np.int32).max
 
