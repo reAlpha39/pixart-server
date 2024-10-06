@@ -5,7 +5,9 @@ WORKDIR /app
 
 # Install CUDA dependencies and other necessary system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 python3-pip libglib2.0-0 libsm6 libxext6 libxrender-dev git curl \
+    python3 python3-dev libpython3-dev python3-pip \
+    libglib2.0-0 libsm6 libxext6 libxrender-dev \
+    build-essential git curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements.txt and install Python dependencies

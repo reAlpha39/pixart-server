@@ -4,7 +4,6 @@ from modules.prompt_generator import PromptGenerator
 import torch
 import random
 import numpy as np
-import ollama
 from diffusers import PixArtSigmaPipeline, Transformer2DModel
 from transformers import T5EncoderModel, BitsAndBytesConfig
 from PIL import Image
@@ -16,24 +15,22 @@ import gc
 IMAGE_DIR = "./generated_images"
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
-MAX_SEED = np.iinfo(np.int32).max
-MAX_IMAGE_SIZE = 1024
-
-quantization_config = BitsAndBytesConfig(
-    load_in_8bit=True,
-    llm_int8_enable_fp32_cpu_offload=True,
-)
-
 class ImageGenerator:
-    @classmethod
+
+    def __init__(self):
+        self.MAX_SEED = np.iinfo(np.int32).max
+        self.quantization_config = BitsAndBytesConfig(
+            load_in_8bit=True,
+            llm_int8_enable_fp32_cpu_offload=True,
+        )
+
     def flush(self):
         gc.collect()
         torch.cuda.empty_cache()
 
-    @classmethod
     def generate(self, request: ImageRequest):
         if request.randomize_seed:
-            request.seed = random.randint(0, MAX_SEED)
+            request.seed = random.randint(0, self.MAX_SEED)
 
         generator = torch.Generator().manual_seed(request.seed)
 
@@ -48,7 +45,7 @@ class ImageGenerator:
             text_encoder = T5EncoderModel.from_pretrained(
                 f"./{request.model}",
                 subfolder="text_encoder",
-                quantization_config=quantization_config,
+                quantization_config=self.quantization_config,
                 device_map="auto",
                 use_safetensors=True,
             )
@@ -62,7 +59,6 @@ class ImageGenerator:
                 use_safetensors=True,
             )
 
-            # speed-up T5
             pipe.text_encoder.to_bettertransformer()
 
             with torch.no_grad():
@@ -81,11 +77,6 @@ class ImageGenerator:
                 torch_dtype=torch.float16,
                 use_safetensors=True,
             )
-
-            # transformer = torch.compile(
-            #     transformer,
-            #     mode="reduce-overhead",
-            # )
 
             pipe = PixArtSigmaPipeline.from_pretrained(
                 f"./pixart_sigma_sdxlvae_T5_diffusers",
@@ -117,33 +108,22 @@ class ImageGenerator:
             with torch.no_grad():
                 image = pipe.vae.decode(
                     latents / pipe.vae.config.scaling_factor, return_dict=False)[0]
-            image = pipe.image_processor.postprocess(image, output_type="pil")[0]
-
-            # image = pipe(
-            #     # prompt=request.prompt,
-            #     negative_prompt=request.negative_prompt,
-            #     width=request.width,
-            #     height=request.height,
-            #     guidance_scale=request.guidance_scale,
-            #     num_inference_steps=request.num_inference_steps,
-            #     generator=generator
-            # ).images[0]
-
+            image = pipe.image_processor.postprocess(
+                image, output_type="pil")[0]
 
             del pipe
             self.flush()
-            # Save the image with a unique filename
+
             image_filename = f"{uuid4()}.png"
             image_path = os.path.join(IMAGE_DIR, image_filename)
             image.save(image_path)
 
             return {
-                "image_url": image_filename,
+                "filename": image_filename,
                 "generated_prompt":  generated_prompt,
                 "seed": request.seed,
                 "model": request.model
             }
-
 
         except Exception as e:
             print(e)

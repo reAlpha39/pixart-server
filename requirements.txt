@@ -16,4 +16,6 @@ ollama
 uvicorn
 sentencepiece
 accelerate
+optimum
 beautifulsoup4
+ftfy

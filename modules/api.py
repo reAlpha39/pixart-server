@@ -5,6 +5,7 @@ from modules.image_generator_2 import ImageGenerator, IMAGE_DIR
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.responses import FileResponse
 
+
 app = FastAPI()
 
 
