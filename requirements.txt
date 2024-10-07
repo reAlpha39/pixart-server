@@ -18,4 +18,3 @@ accelerate
 optimum
 beautifulsoup4
 ftfy
-llama-cpp-python
