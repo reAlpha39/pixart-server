@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential git curl pciutils \
     && rm -rf /var/lib/apt/lists/*
 
+# Set build arguments llama-cpp-python
+ENV CMAKE_ARGS="-DGGML_CUDA=on"
+
 # Copy requirements.txt and install Python dependencies
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
