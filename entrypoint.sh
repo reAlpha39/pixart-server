@@ -1,30 +1,8 @@
 #!/bin/bash
 
-# Install Ollama
-echo "Installing Ollama..."
-if ! curl -fsSL https://ollama.com/install.sh | sh; then
-    echo "Failed to install Ollama."
-    exit 1
-fi
-
-# Start Ollama service in the background
-echo "Starting Ollama service..."
-ollama serve &
-OLLAMA_PID=$!
-
-# Wait a moment to ensure Ollama is ready
-echo "Waiting for Ollama to start..."
-sleep 5
-
-# Check if Ollama is running
-if ! kill -0 $OLLAMA_PID > /dev/null 2>&1; then
-    echo "Ollama service failed to start."
-    exit 1
-fi
-
 # Pull the gemma2 model
-echo "Pulling the gemma2 model..."
-if ! ollama pull gemma2; then
+echo "Pulling Gemma2 model..."
+if ! huggingface-cli download bartowski/gemma-2-9b-it-GGUF --include "gemma-2-9b-it-Q4_K_M.gguf" --local-dir ./; then
     echo "Failed to pull gemma2 model."
     exit 1
 fi

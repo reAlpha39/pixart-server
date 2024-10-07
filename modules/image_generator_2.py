@@ -31,6 +31,7 @@ class ImageGenerator:
         #     fullgraph=True,
         # )
 
+        self.prompt_generator = PromptGenerator()
         self.MAX_SEED = np.iinfo(np.int32).max
 
     def generate(self, request: ImageRequest):
@@ -42,7 +43,7 @@ class ImageGenerator:
 
         try:
             if request.generate_prompt:
-                generated_prompt = PromptGenerator.generate(
+                generated_prompt = self.prompt_generator.generate(
                     prompt=request.prompt,
                 )
             else:

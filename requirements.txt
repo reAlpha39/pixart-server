@@ -1,4 +1,5 @@
 --extra-index-url https://download.pytorch.org/whl/cu124
+--extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu124
 
 torch==2.4.0+cu124
 torchaudio==2.4.0+cu124
@@ -12,10 +13,10 @@ transformers
 fastapi[standard]
 uuid
 huggingface_hub[cli]
-ollama
 uvicorn
 sentencepiece
 accelerate
 optimum
 beautifulsoup4
 ftfy
+llama-cpp-python -C cmake.args="-DGGML_BLAS=ON;-DGGML_BLAS_VENDOR=OpenBLAS;-DGGML_CUDA=on"
