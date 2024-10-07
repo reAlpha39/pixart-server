@@ -2,7 +2,7 @@
 
 # Install Ollama
 echo "Installing Ollama..."
-if ! curl -fsSL https://ollama.com/install.sh | sh; then
+if ! curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION=0.3.10 sh; then
     echo "Failed to install Ollama."
     exit 1
 fi
