@@ -19,4 +19,4 @@ accelerate
 optimum
 beautifulsoup4
 ftfy
-llama-cpp-python -C cmake.args="-DGGML_BLAS=ON;-DGGML_BLAS_VENDOR=OpenBLAS;-DGGML_CUDA=on"
+llama-cpp-python
