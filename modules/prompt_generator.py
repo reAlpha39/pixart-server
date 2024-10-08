@@ -6,6 +6,7 @@ class PromptGenerator:
         prompt = kwargs.get('prompt')
         prompt_model = kwargs.get('prompt_model')
         keep_alive_prompt_model = kwargs.get('keep_alive_prompt_model')
+        generate_prompt_temperature = kwargs.get('generate_prompt_temperature')
 
         try:
             response = ollama.chat(
@@ -17,6 +18,9 @@ class PromptGenerator:
                         'content': prompt
                     }
                 ],
+                options={
+                    "temperature": generate_prompt_temperature,
+                }
             )
             text = response['message']['content'].strip()
             return text

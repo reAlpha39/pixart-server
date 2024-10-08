@@ -12,6 +12,7 @@ class ImageRequest(BaseModel):
     guidance_scale: float = 3.5
     num_inference_steps: int = 28
     generate_prompt: bool = False
+    generate_prompt_temperature: float = 0.5,
     prompt_model: str = "gemma2:latest"
     keep_alive_prompt_model: int = 0
     use_resolution_binning: bool = True

@@ -60,6 +60,7 @@ class ImageGenerator:
             if request.generate_prompt:
                 generated_prompt = self.prompt_generator.generate(
                     prompt_model=request.prompt_model,
+                    generate_prompt_temperature=request.generate_prompt_temperature,
                     keep_alive_prompt_model=request.keep_alive_prompt_model,
                     prompt=request.prompt,
                 )
