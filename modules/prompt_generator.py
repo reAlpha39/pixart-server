@@ -2,7 +2,11 @@ import ollama
 import re
 
 class PromptGenerator:
-    def generate(prompt: str, prompt_model: str):
+    def generate(self, **kwargs):
+        prompt = kwargs.get('prompt')
+        prompt_model = kwargs.get('prompt_model')
+        keep_alive_prompt_model = kwargs.get('keep_alive_prompt_model')
+
         try:
             response = ollama.chat(
                 model=prompt_model,

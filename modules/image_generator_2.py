@@ -5,7 +5,7 @@ import gc
 import torch
 import random
 import numpy as np
-from diffusers import PixArtSigmaPipeline
+from diffusers import PixArtSigmaPipeline, Transformer2DModel
 from PIL import Image
 from uuid import uuid4
 import os
@@ -59,6 +59,8 @@ class ImageGenerator:
         try:
             if request.generate_prompt:
                 generated_prompt = self.prompt_generator.generate(
+                    prompt_model=request.prompt_model,
+                    keep_alive_prompt_model=request.keep_alive_prompt_model,
                     prompt=request.prompt,
                 )
                 print(f'generated prompt: {generated_prompt}')
