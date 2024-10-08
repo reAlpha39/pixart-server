@@ -2,9 +2,13 @@
 
 # Install Ollama
 echo "Installing Ollama..."
-if ! curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION=0.3.10 sh; then
-    echo "Failed to install Ollama."
-    exit 1
+if ! command -v ollama &> /dev/null; then
+    if ! curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION=0.3.10 sh; then
+        echo "Failed to install Ollama."
+        exit 1
+    fi
+else
+    echo "Ollama is already installed."
 fi
 
 # Start Ollama service in the background
@@ -31,9 +35,13 @@ fi
 
 # Pull PixArt model from Hugging Face
 echo "Pulling PixArt-Sigma-900M model..."
-if ! huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir /app/PixArt-Sigma-900M; then
-    echo "Failed to pull PixArt-Sigma-900M model."
-    exit 1
+if [ ! -d "/app/PixArt-Sigma-900M" ]; then
+    if ! huggingface-cli download dataautogpt3/PixArt-Sigma-900M --local-dir /app/PixArt-Sigma-900M; then
+        echo "Failed to pull PixArt-Sigma-900M model."
+        exit 1
+    fi
+else
+    echo "PixArt-Sigma-900M model is already downloaded."
 fi
 
 # Run the Python script
