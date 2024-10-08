@@ -26,8 +26,8 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    # Step 4: Build Docker image with Buildx (No cache)
+    # Step 4: Build Docker image
     - name: Build Docker image
       run: |
-        docker buildx build --push --no-cache --tag realpha39/pixart-ollama .
+        docker buildx build --push --tag realpha39/pixart-ollama:ollama0.3.10 .
 
