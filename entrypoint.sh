@@ -33,6 +33,13 @@ if ! ollama pull gemma2; then
     exit 1
 fi
 
+# Pull the gemma2 model
+echo "Pulling the gemma2:2b model..."
+if ! ollama pull gemma2:2b; then
+    echo "Failed to pull gemma2 model."
+    exit 1
+fi
+
 # Pull PixArt model from Hugging Face
 echo "Pulling PixArt-Sigma-900M model..."
 if [ ! -d "/app/PixArt-Sigma-900M" ]; then
