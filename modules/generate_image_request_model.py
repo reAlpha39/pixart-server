@@ -11,4 +11,7 @@ class ImageRequest(BaseModel):
     height: Optional[int] = 1024
     guidance_scale: Optional[float] = 3.5
     num_inference_steps: Optional[int] = 28
-    generate_prompt: Optional[bool] = False
+    generate_prompt: Optional[bool] = False,
+    prompt_model: Optional[str] = "gemma2:latest",
+    keep_alive_prompt_model: Optional[int] = 0,
+    use_resolution_binning: Optional[bool] = True,
