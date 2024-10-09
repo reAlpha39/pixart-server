@@ -22,24 +22,10 @@ class ImageGenerator:
             self.T5_token_max_length = 300
             weight_dtype = torch.float16
 
-            transformer = Transformer2DModel.from_pretrained(
-                "./PixArt-Sigma-900M",
-                subfolder='transformer',
-                torch_dtype=weight_dtype,
-            )
             self.pipe = PixArtSigmaPipeline.from_pretrained(
                 "./PixArt-Sigma-900M",
-                transformer=transformer,
-                torch_dtype=weight_dtype,
-                use_safetensors=True,
-            )
-
-            self.pipe.to("cuda")
-
-            # self.pipe = PixArtSigmaPipeline.from_pretrained(
-            #     "./PixArt-Sigma-900M",
-            #     torch_dtype=torch.float16,
-            # ).to("cuda")
+                torch_dtype=torch.float16,
+            ).to("cuda")
 
             # speed-up T5
             self.pipe.text_encoder.to_bettertransformer()
@@ -77,7 +63,6 @@ class ImageGenerator:
                 num_inference_steps=request.num_inference_steps,
                 generator=generator,
                 max_sequence_length=self.T5_token_max_length,
-                use_resolution_binning=request.use_resolution_binning,
             ).images[0]
 
             gc.collect()
@@ -86,6 +71,11 @@ class ImageGenerator:
             image_filename = f"{uuid4()}.png"
             image_path = os.path.join(IMAGE_DIR, image_filename)
             image.save(image_path)
+
+            print(
+                f"Max memory allocated: {
+                    torch.cuda.max_memory_allocated() / 1024 / 1024 / 1024} GB"
+            )
 
             return {
                 "filename": image_filename,
