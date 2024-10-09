@@ -31,5 +31,8 @@ RUN chmod +x entrypoint.sh
 # Expose the API port
 EXPOSE 8000
 
+# Set environment variable for optional PixArt-XL download (default to 0)
+ENV DOWNLOAD_PIXART_XL=0
+
 # Use entrypoint.sh to run the sequence of commands
 ENTRYPOINT ["./entrypoint.sh"]
