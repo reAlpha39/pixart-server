@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# Install Ollama
-echo "Installing Ollama..."
-if ! command -v ollama &> /dev/null; then
-    if ! curl -fsSL https://ollama.com/install.sh | OLLAMA_VERSION=0.3.10 sh; then
-        echo "Failed to install Ollama."
-        exit 1
-    fi
-else
-    echo "Ollama is already installed."
-fi
-
 # Start Ollama service in the background
 echo "Starting Ollama service..."
 ollama serve &
