@@ -15,4 +15,3 @@ class ImageRequest(BaseModel):
     generate_prompt_temperature: float = 0.8
     prompt_model: str = "gemma2:latest"
     keep_alive_prompt_model: int = 0
-    use_resolution_binning: bool = True
