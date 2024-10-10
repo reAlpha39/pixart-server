@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     tags:
-      - 'v*'
+      - 'v*'  # Push events to matching v*, i.e. v1.0, v20.15.10
   pull_request:
     branches: [ "main" ]
 
@@ -28,17 +28,17 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    # Step 4: Extract metadata (tags, labels) for Docker
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: realpha39/pixart-ollama
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
+    # Step 4: Determine Docker image tag
+    - name: Determine Docker image tag
+      id: get_tag
+      run: |
+        if [[ $GITHUB_REF == refs/tags/* ]]; then
+          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+        elif [[ $GITHUB_REF == refs/heads/main ]]; then
+          echo ::set-output name=TAG::latest
+        else
+          echo ::set-output name=TAG::${GITHUB_SHA::7}
+        fi
 
     # Step 5: Build and push Docker image
     - name: Build and push Docker image
@@ -46,5 +46,4 @@ jobs:
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: realpha39/pixart-ollama:${{ steps.get_tag.outputs.TAG }}
